@@ -24,37 +24,55 @@ class Location(BaseModel):
     city: str = Field(
         ...,
         min_length=1,
-        max_length=150
+        max_length=150,
+        example = "Barranquilla"
         )
     state: str = Field(
         ...,
         min_length=1,
-        max_length=150
+        max_length=150,
+        example = "Atlantico"
         )
     country: str = Field(
         ...,
         min_length=1,
-        max_length=150
+        max_length=150,
+        example = "Colombia"
         )
 
 class Person(BaseModel):
     first_name: str = Field(
         ..., 
         min_length=1, 
-        max_length=50
+        max_length=50,
+        example = "Andres"
         )
     last_name: str = Field(
         ..., 
         min_length=1, 
-        max_length=50
+        max_length=50,
+        example = "Robles"
         )
     age: int = Field(
         ...,
         gt=0,
-        le=115
+        le=115,
+        example = 26
     )
-    hair_color: Optional[HairColor] = Field(default=None)
-    is_married: Optional[bool] = Field(default=False)
+    hair_color: Optional[HairColor] = Field(default=None, example = "white")
+    is_married: Optional[bool] = Field(default=False, example = False)
+
+    # Automatic Request Body 
+    """ class Config:
+        schema_extra = {
+            "example": {
+                "first_name": "Andres",
+                "last_name": "Robles",
+                "age": 26,
+                "hair_color": "blonde",
+                "is_married": True
+            }
+        } """
 
 @app.get("/")
 def home():
@@ -114,8 +132,9 @@ def update_person(
         gt=0
     ),
     person: Person = Body(...),
-    location: Location = Body(...)
+    # location: Location = Body(...)
 ):
-    results = person.dict()
+    """ results = person.dict()
     results.update(location.dict())
-    return results
+    return results """
+    return person
