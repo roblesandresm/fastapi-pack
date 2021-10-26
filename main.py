@@ -21,9 +21,21 @@ class HairColor(Enum):
     red = "red"
 
 class Location(BaseModel):
-    city: str
-    state: str
-    country: str
+    city: str = Field(
+        ...,
+        min_length=1,
+        max_length=150
+        )
+    state: str = Field(
+        ...,
+        min_length=1,
+        max_length=150
+        )
+    country: str = Field(
+        ...,
+        min_length=1,
+        max_length=150
+        )
 
 class Person(BaseModel):
     first_name: str = Field(
@@ -42,7 +54,7 @@ class Person(BaseModel):
         le=115
     )
     hair_color: Optional[HairColor] = Field(default=None)
-    is_married: Optional[bool] = Field(default=None)
+    is_married: Optional[bool] = Field(default=False)
 
 @app.get("/")
 def home():
